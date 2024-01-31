@@ -45,7 +45,7 @@ namespace My.Functions
             {
                 //somevals sv = obj.ToObject<somevals>();
                 AZUREFUNCTIONS20240130.classes.somevals sv = obj.ToObject<AZUREFUNCTIONS20240130.classes.somevals>();
-                
+             
                 if(rtnval == "")
                 {
                     rtnval = ProcessTheVal(sv);
