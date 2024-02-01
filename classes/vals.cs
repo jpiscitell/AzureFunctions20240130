@@ -15,6 +15,9 @@ namespace AZUREFUNCTIONS20240130.classes {
         public string description { get; set; }
         [JsonProperty("subvals", NullValueHandling = NullValueHandling.Ignore)]
         public somesubvals[] subvals {get; set;}
+
+        [JsonProperty("sftpcreds", NullValueHandling = NullValueHandling.Ignore)]
+        public somesftpcreds[] sftpcreds {get; set;}
     }
 
     public class somesubvals {
@@ -22,5 +25,16 @@ namespace AZUREFUNCTIONS20240130.classes {
         public int subval1 { get; set; }
         [JsonProperty("subval2", NullValueHandling = NullValueHandling.Ignore)]
         public string subval2 { get; set; }
+    }
+
+    public class somesftpcreds {
+        [JsonProperty("host", NullValueHandling = NullValueHandling.Ignore)]
+        public string host { get; set; }
+        [JsonProperty("port", NullValueHandling = NullValueHandling.Ignore)]
+        public int port { get; set; }
+        [JsonProperty("username", NullValueHandling = NullValueHandling.Ignore)]
+        public string username { get; set; }
+        [JsonProperty("password", NullValueHandling = NullValueHandling.Ignore)]
+        public string password { get; set; }
     }
 }

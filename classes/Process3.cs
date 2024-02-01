@@ -34,7 +34,7 @@ namespace AZUREFUNCTIONS20240130.classes {
                     stat2 = "##";
 
                     string filename = "TestFile.txt";
-                    string ulFilename = "TestFile4.txt";
+                    string ulFilename = "TestFile55.txt";
 
                     //process for uploading a file from local disk to SFTP site
                     using (FileStream fStream = File.Open(@"C:\temp\" + filename, FileMode.Open))
@@ -72,8 +72,8 @@ namespace AZUREFUNCTIONS20240130.classes {
                     var stat2 = "?";
                     stat2 = "##";
 
-                    string filename = "TestFile4.txt";
-                    string ulFilename = "TestFile4.txt";
+                    string filename = "TestFile55.txt";
+                    string ulFilename = "TestFile55.txt";
 
                     //process for downloading file from SFTP to local disk
                     using (var fs = new FileStream(@"C:\temp\" + ulFilename, FileMode.Create))

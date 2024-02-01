@@ -78,7 +78,11 @@ namespace My.Functions
                 break;
                 case "process3":
                     Process3 p3 = new Process3();
-                    p3.testSFTP();
+                    string host = sv.sftpcreds[0].host;
+                    int port = sv.sftpcreds[0].port;
+                    string username = sv.sftpcreds[0].username;
+                    string password = sv.sftpcreds[0].password;
+                    p3.testSFTP(host,port,username,password);
                 break;
                 case "process4":
                 break;
