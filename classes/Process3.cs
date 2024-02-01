@@ -19,10 +19,6 @@ namespace AZUREFUNCTIONS20240130.classes {
         private async Task<bool> SFTPUpload()
         {
             bool success = false;
-            // string host = "syr-extfile.rrms.com";
-            // int port = 22;
-            // string username = "aipsftp";
-            // string password = "7LM79Qfn$z*N$2eP";
             using SftpClient sftp1 = new(host,port,username,password);
             string ic = "NO";
 
