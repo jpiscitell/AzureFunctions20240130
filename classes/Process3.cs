@@ -11,10 +11,10 @@ using Renci.SshNet;
 namespace AZUREFUNCTIONS20240130.classes {
     public class Process3 {
 
-        public async void testSFTP(string updown, string host, int port, string username, string password, string remotepath, string uploadFilePath, string downloadFilePath, FileStream uploadFileStream, string uploadFileName, string fileToDownload) {
+        public async void testSFTP(string updown, string host, int port, string username, string password, string remotepath, string uploadFilePath, string downloadFilePath, MemoryStream uploadStream, string uploadFileName, string fileToDownload, byte[] fs) {
             if(updown == "u")
             {
-                bool uploadSuccess = await SFTPUpload(host,port,username,password,remotepath,uploadFilePath,uploadFileStream,uploadFileName);
+                bool uploadSuccess = await SFTPUpload(host,port,username,password,remotepath,uploadFileName,fs);
             }
             if(updown == "d")
             {            
@@ -22,7 +22,7 @@ namespace AZUREFUNCTIONS20240130.classes {
             }
         }
 
-        private async Task<bool> SFTPUpload(string host, int port, string username, string password, string remotepath, string uploadFilePath, FileStream uploadFileStream, string uploadFileName)
+        private async Task<bool> SFTPUpload(string host, int port, string username, string password, string remotepath, string uploadFileName, byte[] fs)
         {
             bool success = false;
             using SftpClient sftp1 = new(host,port,username,password);
@@ -42,8 +42,8 @@ namespace AZUREFUNCTIONS20240130.classes {
                     DateTime dt = DateTime.Now;
                     string ulFilename = uploadFileName.Split('.')[0] + dt.Ticks.ToString() + "." + uploadFileName.Split('.')[1];
 
-                    //process for uploading a file from passed in FileStream to SFTP site
-                    sftp1.UploadFile(uploadFileStream, remotepath + "/" +  ulFilename, null);
+                    //process for uploading a file from passed in bytes to SFTP site
+                    sftp1.WriteAllBytes(remotepath + "/" +  ulFilename, fs);
                 }
                 success = true;
             } catch (Exception ex)

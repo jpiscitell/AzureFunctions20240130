@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -83,13 +84,27 @@ namespace My.Functions
                     string username = sv.sftpcreds[0].username;
                     string password = sv.sftpcreds[0].password;
                     string remotepath = "/upload/processed";
-                    string updown = "d";
+                    string updown = "u";
                     string uploadFilePath = @"C:\temp\";
-                    string uploadFileName = @"TestFile.txt";
+                    string uploadFileName = @"TestFile.csv";
                     string downloadFilePath = @"C:\temp\";
                     string fileToDownload = "TestFile2.txt";
-                    FileStream uploadFileStream = File.Open(uploadFilePath + uploadFileName, FileMode.Open);
-                    p3.testSFTP(updown,host,port,username,password, remotepath, uploadFilePath,downloadFilePath,uploadFileStream,uploadFileName,fileToDownload);
+
+
+                    UnicodeEncoding uniEncoding = new UnicodeEncoding();
+                    string firststring = "val1,val2,val3,val4,val5,val6";
+                    byte[] fs = uniEncoding.GetBytes(firststring);
+
+                    MemoryStream uploadStream = new MemoryStream();
+                    uploadStream.Write(fs, 0, fs.Length);
+
+                    if(File.Exists(uploadFilePath + uploadFileName)){
+                        DateTime dt = DateTime.Now;
+                        uploadFileName = uploadFileName.Split('.')[0] + dt.Ticks.ToString() + "." + uploadFileName.Split('.')[1];
+                    }
+
+                    p3.testSFTP(updown,host,port,username,password, remotepath, uploadFilePath,downloadFilePath,uploadStream,uploadFileName,fileToDownload,fs);
+
                 break;
                 case "process4":
                 break;
