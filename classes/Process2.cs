@@ -9,10 +9,11 @@ namespace AZUREFUNCTIONS20240130.classes {
     public class Process2 {
         public async void sendMessage(string smstext, string[] phones) {
             string rtnval = "";
+            string sinchURL = "https://east.rrmsalarm.com/webhook/api/sendsms/stagessinch";
             try
             {
                 HttpClient httpClient1 = new HttpClient();
-                httpClient1.BaseAddress = new Uri("https://east.rrmsalarm.com/webhook/api/sendsms/stagessinch");
+                httpClient1.BaseAddress = new Uri(sinchURL);
                 string sup = "smswebhook:2mqRyE2@2Oe3";
                 var byteArray = Encoding.ASCII.GetBytes(sup);
                 httpClient1.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
@@ -22,7 +23,7 @@ namespace AZUREFUNCTIONS20240130.classes {
                     string tPhone = phones[i].ToString();
                     string msg = "This is a personalized message from AZURE Function, from rapid tech number personalized for, " + tPhone + "-->" + smstext;
                     var content = new StringContent("{\"fromphone\": \"8336970289\",\"tophone\": \"" + tPhone + "\",\"message\": \"" + msg + "\",\"smsservice\": \"<sinch>Rapid_Tech\",\"callingapp\": \"sendsms\"}", Encoding.UTF8, "application/json");
-                    var result = await httpClient1.PostAsync("https://east.rrmsalarm.com/webhook/api/sendsms/stagessinch", content);
+                    var result = await httpClient1.PostAsync(sinchURL, content);
                 }
 
 

@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.2.0" />
+    <PackageReference Include="SSH.NET" Version="2023.0.1" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
@@ -14,5 +15,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Renci.SshNet">
+      <HintPath>..\dlls\Renci.SshNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

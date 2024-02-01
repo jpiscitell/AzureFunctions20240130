@@ -77,6 +77,8 @@ namespace My.Functions
                     p2.sendMessage(sv.description, phones.ToArray()); 
                 break;
                 case "process3":
+                    Process3 p3 = new Process3();
+                    p3.testSFTP();
                 break;
                 case "process4":
                 break;
