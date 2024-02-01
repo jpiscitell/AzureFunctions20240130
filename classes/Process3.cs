@@ -11,12 +11,12 @@ using Renci.SshNet;
 namespace AZUREFUNCTIONS20240130.classes {
     public class Process3 {
 
-        public async void testSFTP() {
-            bool uploadSuccess = await SFTPUpload();
-            bool downloadSuccess =  await SFTPDownload();
+        public async void testSFTP(string host, int port, string username, string password) {
+            bool uploadSuccess = await SFTPUpload(host,port,username,password);
+            bool downloadSuccess =  await SFTPDownload(host,port,username,password);
         }
 
-        private async Task<bool> SFTPUpload()
+        private async Task<bool> SFTPUpload(string host, int port, string username, string password)
         {
             bool success = false;
             using SftpClient sftp1 = new(host,port,username,password);
@@ -55,13 +55,9 @@ namespace AZUREFUNCTIONS20240130.classes {
             return success;
         }
 
-        private async Task<bool> SFTPDownload()
+        private async Task<bool> SFTPDownload(string host, int port, string username, string password)
         {
             bool success = false;
-            // string host = "syr-extfile.rrms.com";
-            // int port = 22;
-            // string username = "aipsftp";
-            // string password = "7LM79Qfn$z*N$2eP";
             using SftpClient sftp1 = new(host,port,username,password);
             string ic = "NO";
 
