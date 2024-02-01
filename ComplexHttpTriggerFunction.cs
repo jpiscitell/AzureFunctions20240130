@@ -82,7 +82,14 @@ namespace My.Functions
                     int port = sv.sftpcreds[0].port;
                     string username = sv.sftpcreds[0].username;
                     string password = sv.sftpcreds[0].password;
-                    p3.testSFTP(host,port,username,password);
+                    string remotepath = "/upload/processed";
+                    string updown = "d";
+                    string uploadFilePath = @"C:\temp\";
+                    string uploadFileName = @"TestFile.txt";
+                    string downloadFilePath = @"C:\temp\";
+                    string fileToDownload = "TestFile2.txt";
+                    FileStream uploadFileStream = File.Open(uploadFilePath + uploadFileName, FileMode.Open);
+                    p3.testSFTP(updown,host,port,username,password, remotepath, uploadFilePath,downloadFilePath,uploadFileStream,uploadFileName,fileToDownload);
                 break;
                 case "process4":
                 break;

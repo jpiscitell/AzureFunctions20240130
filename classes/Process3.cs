@@ -11,12 +11,18 @@ using Renci.SshNet;
 namespace AZUREFUNCTIONS20240130.classes {
     public class Process3 {
 
-        public async void testSFTP(string host, int port, string username, string password) {
-            bool uploadSuccess = await SFTPUpload(host,port,username,password);
-            bool downloadSuccess =  await SFTPDownload(host,port,username,password);
+        public async void testSFTP(string updown, string host, int port, string username, string password, string remotepath, string uploadFilePath, string downloadFilePath, FileStream uploadFileStream, string uploadFileName, string fileToDownload) {
+            if(updown == "u")
+            {
+                bool uploadSuccess = await SFTPUpload(host,port,username,password,remotepath,uploadFilePath,uploadFileStream,uploadFileName);
+            }
+            if(updown == "d")
+            {            
+                bool downloadSuccess =  await SFTPDownload(host,port,username,password,remotepath,downloadFilePath,fileToDownload);
+            }
         }
 
-        private async Task<bool> SFTPUpload(string host, int port, string username, string password)
+        private async Task<bool> SFTPUpload(string host, int port, string username, string password, string remotepath, string uploadFilePath, FileStream uploadFileStream, string uploadFileName)
         {
             bool success = false;
             using SftpClient sftp1 = new(host,port,username,password);
@@ -29,18 +35,15 @@ namespace AZUREFUNCTIONS20240130.classes {
                 {
                     ic = "YES";
 
-                    var stat = sftp1.GetStatus("/upload/processed");
-                    var stat2 = "?";
-                    stat2 = "##";
+                    //get the status, not sure what we might do with this yet
+                    var stat = sftp1.GetStatus(remotepath);
 
-                    string filename = "TestFile.txt";
-                    string ulFilename = "TestFile55.txt";
+                    //give the file a unique name
+                    DateTime dt = DateTime.Now;
+                    string ulFilename = uploadFileName.Split('.')[0] + dt.Ticks.ToString() + "." + uploadFileName.Split('.')[1];
 
-                    //process for uploading a file from local disk to SFTP site
-                    using (FileStream fStream = File.Open(@"C:\temp\" + filename, FileMode.Open))
-                    {
-                        sftp1.UploadFile(fStream, "/upload/processed/" +  ulFilename, null);
-                    }
+                    //process for uploading a file from passed in FileStream to SFTP site
+                    sftp1.UploadFile(uploadFileStream, remotepath + "/" +  ulFilename, null);
                 }
                 success = true;
             } catch (Exception ex)
@@ -55,7 +58,7 @@ namespace AZUREFUNCTIONS20240130.classes {
             return success;
         }
 
-        private async Task<bool> SFTPDownload(string host, int port, string username, string password)
+        private async Task<bool> SFTPDownload(string host, int port, string username, string password, string remotepath, string downloadFilePath, string fileToDownload)
         {
             bool success = false;
             using SftpClient sftp1 = new(host,port,username,password);
@@ -68,17 +71,14 @@ namespace AZUREFUNCTIONS20240130.classes {
                 {
                     ic = "YES";
 
-                    var stat = sftp1.GetStatus("/upload/processed");
-                    var stat2 = "?";
-                    stat2 = "##";
-
-                    string filename = "TestFile55.txt";
-                    string ulFilename = "TestFile55.txt";
+                    //give the downloaded file a unique name based on the filename on the sftp site
+                    DateTime dt = DateTime.Now;
+                    string dlFilename = fileToDownload.Split('.')[0] + dt.Ticks.ToString() + "." + fileToDownload.Split('.')[1];
 
                     //process for downloading file from SFTP to local disk
-                    using (var fs = new FileStream(@"C:\temp\" + ulFilename, FileMode.Create))
+                    using (var fs = new FileStream(downloadFilePath + dlFilename, FileMode.Create))
                     {
-                        sftp1.DownloadFile("/upload/processed/" +  ulFilename, fs);
+                        sftp1.DownloadFile(remotepath + "/" +  fileToDownload, fs);
                     }
 
                 } else {
