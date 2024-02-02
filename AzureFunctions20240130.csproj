@@ -4,6 +4,7 @@
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.2.0" />
     <PackageReference Include="SSH.NET" Version="2023.0.1" />
   </ItemGroup>
@@ -19,6 +20,15 @@
   <ItemGroup>
     <Reference Include="Renci.SshNet">
       <HintPath>..\dlls\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog">
+      <HintPath>..\dlls\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Graylog">
+      <HintPath>..\dlls\Serilog.Sinks.Graylog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Graylog.Core">
+      <HintPath>..\dlls\Serilog.Sinks.Graylog.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
