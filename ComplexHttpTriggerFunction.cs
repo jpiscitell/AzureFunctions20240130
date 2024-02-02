@@ -86,15 +86,34 @@ namespace My.Functions
                     string remotepath = "/upload/processed";
                     string updown = "u";
                     string uploadFilePath = @"C:\temp\";
-                    string uploadFileName = @"TestFile.csv";
+                    string uploadFileName = @"TestFile.csv"; 
                     string downloadFilePath = @"C:\temp\";
                     string fileToDownload = "TestFile2.txt";
+                    datasetdata[] ds = sv.dataset;
+
+                    string sfcsv = ",Site Number,Site Name,Contact Number,To Phone,Last Name,First Name,From Phone,Call Time,Call Length in Minutes";
+                    for(int dsl = 0; dsl < ds.Count(); dsl++)
+                    {
+                        if(sfcsv == "")
+                        {
+                            sfcsv = ds[dsl].id + "," + ds[dsl].sitenum.ToString() + "," + ds[dsl].sitename.Replace(',', ' ') + "," + ds[dsl].contactnum.ToString()
+                             + "," + ds[dsl].tophone + "," + ds[dsl].lastname + "," + ds[dsl].firstname + "," + ds[dsl].fromphone
+                             + "," + ds[dsl].calltime.ToString() + "," + ds[dsl].calllengthminutes.ToString();
+                        } else {
+                            sfcsv = sfcsv + "\r" +  ds[dsl].id + "," + ds[dsl].sitenum.ToString() + "," + ds[dsl].sitename.Replace(',', ' ') + "," + ds[dsl].contactnum.ToString()
+                             + "," + ds[dsl].tophone + "," + ds[dsl].lastname + "," + ds[dsl].firstname + "," + ds[dsl].fromphone
+                             + "," + ds[dsl].calltime.ToString() + "," + ds[dsl].calllengthminutes.ToString();
+                        }
+                    }
 
 
                     UnicodeEncoding uniEncoding = new UnicodeEncoding();
-                    string firststring = "val1,val2,val3,val4,val5,val6";
-                    byte[] fs = uniEncoding.GetBytes(firststring);
+                    if(sfcsv == "")
+                    {
+                        sfcsv = "val1,val2,val3,val4,val5,val6\rval7,val8,val9,val10,val11,val12\rval13,val14,val15,val16,val17,val18";
+                    }
 
+                    byte[] fs = uniEncoding.GetBytes(sfcsv);
                     MemoryStream uploadStream = new MemoryStream();
                     uploadStream.Write(fs, 0, fs.Length);
 
