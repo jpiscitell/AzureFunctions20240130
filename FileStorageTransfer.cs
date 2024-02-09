@@ -73,6 +73,7 @@ namespace My.Functions
                         CloudBlobContainer container = blobClient.GetContainerReference(containerName);  
                         CloudBlockBlob cloudBlockBlob = container.GetBlockBlobReference(filetodownloadStr); 
 
+                        downloadpathStr = System.IO.Path.GetTempPath();
                         Stream file = File.OpenWrite(downloadpathStr + filetodownloadNameStr);
                         await cloudBlockBlob.DownloadToStreamAsync(file);
                         await file.FlushAsync();
